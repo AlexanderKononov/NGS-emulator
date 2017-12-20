@@ -1,18 +1,25 @@
-
-# coding: utf-8
-
-# In[16]:
-
 import numpy as np
 import random
 import copy
+import sys
 
-#N_observ=10
-#N_subclones=2
-N_observ=int(raw_input('Size of emulated data?'))
-N_subclones=int(raw_input('Number of emulated subclones?'))
-norm_data=np.zeros((N_observ,4))
+N_observations=100
+N_subclones=2
+exprestion=20
+non-abberant_cells=0.2
+#N_observ=int(raw_input('Size of emulated data?'))
+#N_subclones=int(raw_input('Number of emulated subclones?'))
+norm_data=np.zeros((N_observations,4))
 
+change_frame=N_observations/(N_subclones+2)
+
+normal_CNA=np.random.poisson(exprestion, N_observations)
+subclon_CNA_data={}
+for i in range(N_subclones):
+	current_subclone_data=normal_CNA
+	current_subclone_data[j]+=i*exprestion for j in range(i*change_frame,(i+1)*change_frame)		
+		
+	subclon_CNA_data[1]=[]
 # DP Emulate
 for i in norm_data:
     i[0]=1

@@ -1,5 +1,5 @@
-# current_project
-# chr	start	end	meanDP
-1	1	30	10
-2	1	30	10
-3	1	30	10
+# current_project 2 0.5 0.5
+# chr	start	end	normalPloidy	clone-1
+1	1	100	2	2
+2	1	100	2	3
+3	1	100	2	1

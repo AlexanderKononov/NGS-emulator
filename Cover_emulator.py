@@ -1,14 +1,16 @@
-# This script take command by first argument.
-# Now 2 commands are available: '-normal' and '-seq'
+# This script contine functions, class and code for run itself (executable code).
+# It can get command and additional options, suitable to this command, as arguments after script name.
+# Now 5 commands are available: '-normal', '-addclone', '-duplication' '-deletion' and '-seq'
 
 import sys
 import random
 
-# This script run with command '-normal' by 3 arguments:
+# Command '-normal' is first command by which inner project files are created.
+# Originally this files have description for normal sample without any abberation.
+# This script run with command '-normal' by 2-3 arguments:
 # first is command '-normal',
-# second is length of DNA data
-
-# Then script creates template for data with 3 chromosomes and with noted summery DNA length and mean read depth.
+# second is length of DNA data per chromosome,
+# third is optional argument and notes a number of chromosomes (default is 23).
 
 def createNormalSample(simulation, DNAlengh, number_of_chromosome = 23):
     with open(simulation + '_CNA', 'w') as simulation_CNA_file, open(simulation + '_BAF', 'w') as simulation_BAF_file:
@@ -30,12 +32,12 @@ def test_create_normal_sample():
     assert result[3] == '2'
     test_file.close()
 
-
+# Command '-seq' is last command by which data from inner project files is transformed to output files.
 # This script run with command '-seq' by 3 arguments:
 # first is command '-seq',
-# second is mean read depth of normal sample.
+# second is mean read depth of haploid sample and reflects number of read from one copy of DNA matrix.
 # and third is level of noise.
-# Then script creates data file by template created before and.
+# Then script creates data file by template created before.
 
 def sequence_sample(simulation, meanDP, noise):
     container = DataContainer()
@@ -52,13 +54,14 @@ def sequence_sample(simulation, meanDP, noise):
             total_baf=total_alleles/total_ploidy
             for position in range(segment_CNA[1], segment_CNA[2]):
                 position_DP = int(random.normalvariate(int(total_ploidy * int(meanDP)), int(noise)))
-                output_CNA.write(str(segment_CNA[0]) + '\t' + str(position) + '\t' + str(position_DP) + '\n')
-                if random.randint(0, 5) == 5:
+                output_CNA.write(str(segment_CNA[0]) + '\t' + str(position*1000) + '\t' + str(position_DP) + '\t1\n')
+                if position%5 == 0:
                     baf = total_baf + (1-2*total_baf)*random.randint(0,1)
-                    position_AD = int(random.normalvariate((int(total_ploidy * baf * int(meanDP))), int(noise)))
-                    output_BAF.write(str(segment_BAF[0]) + '\t' + str(position) + '\t' + str(position_AD) + '\n')
+                    position_AD = min(int(random.normalvariate((int(total_ploidy * baf * int(meanDP))), int(noise))), position_DP)
+                    output_BAF.write(str(segment_BAF[0]) + '\t' + str(position*1000) + '\t' + str(position_AD) + '\t' + str(position_DP) + '\n')
 
 #This is a description of main data object - data container.
+#The containers are used as temporal data format by which the data can be flexibly changed and then can back to project files.
 #In the container saved all information about ploidy of each sample's segment from current project file.
 #Then the container is changed by metods descriped in the class.
 #Then by one of this metods changed data from container is rewrited in current project file.
@@ -71,7 +74,7 @@ class DataContainer:
         self.data_CNA = []
         self.data_BAF = []
 
-    #Metod of saving data to container from file.
+    #Metod of saving data to container from project files.
     def read_data(self, simulation):
         with open(simulation + '_CNA', 'r') as simulation_CNA_file, open(simulation + '_BAF', 'r') as simulation_BAF_file:
             string = simulation_CNA_file.readline().strip().split()
@@ -87,7 +90,7 @@ class DataContainer:
                 self.data_BAF.append([int(x) for x in line.strip().split()])
 
 
-    #Metod of writing data to file from container.
+    #Metod of writing data to project files from container.
     def write_data(self, simulation):
         with open(simulation + '_CNA', 'w') as simulation_CNA_file, open(simulation + '_BAF', 'w') as simulation_BAF_file:
             simulation_CNA_file.write('# ' + simulation + ' ' + str(self.clonality))
@@ -144,7 +147,8 @@ class DataContainer:
                 if i[0] == chromosome: i[3 + clone] -= 1
 
 # This is function of adding clone.
-#It is used with 2 arguments: name of simulation and new clone fraction (float value).
+# It is used with 2 arguments: name of simulation and new clone fraction (float value).
+# Sum of all clone fraction must be less then 1.0 .
 
 def add_clone(simulation, new_fraction):
     new_container = DataContainer()
@@ -153,7 +157,7 @@ def add_clone(simulation, new_fraction):
     new_container.write_data(simulation)
 
 # This is function of duplication.
-#It is used with 3 arguments: name of simulation, clone of changing (int value) and chromosome of changing (int value).
+# It is used with 3 arguments: name of simulation, clone of changing (int value) and chromosome of changing (int value).
 
 def duplication(simulation, clone, chromosome):
     new_container = DataContainer()
@@ -169,6 +173,9 @@ def deletion(simulation, clone, chromosome):
     new_container.read_data(simulation)
     new_container.deletion(int(clone), int(chromosome))
     new_container.write_data(simulation)
+
+# Below code is executable code.
+# The part contains API to detect conditions (command and additional options) from arguments during a run.
 
 arg = sys.argv
 if arg[1] == '-normal':

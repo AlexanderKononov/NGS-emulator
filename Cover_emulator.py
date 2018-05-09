@@ -188,7 +188,7 @@ class DataContainer:
 # It is used with 2 arguments: name of simulation and new clone fraction (float value).
 # Sum of all clone fraction must be less then 1.0 .
 
-def add_clone(simulation, new_fraction, parent=0):
+def add_clone(simulation, new_fraction, parent = 0):
     new_container = DataContainer()
     new_container.read_data(simulation)
     new_container.read_phylogeny(simulation)

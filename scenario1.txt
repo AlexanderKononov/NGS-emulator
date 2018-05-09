@@ -1,0 +1,19 @@
+# Scenarion 1
+#
+# Number of chromosome = 5
+# Length of chromosome = 1000
+# Mutation level = 0.3
+# Mean DP = 50
+# Noise = 5
+#
+# Comands:
+duplication clone=0 chr=2 coordinates=500-1000 strand=A
+#add_clone fraction=0.5 parent=0 strategy=static
+#sample name=sample0
+add_clone fraction=0.5 parent=0 strategy=static
+add_clone fraction=0.3 parent=0 strategy=static
+deletion clone=1 chr=4 coordinates=1-1000 strand=B
+duplication clone=2 chr=1 coordinates=1-1000 strand=B
+sample name=sample1
+remove_clone clone=2 parent=0 fraction_strategy=static
+sample name=sample2

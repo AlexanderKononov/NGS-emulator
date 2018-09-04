@@ -29,5 +29,6 @@ for command in command_list:
 
 interfaceFunctions.writeSegments(segment_data_list=segment_data_list)
 interfaceFunctions.writeVariants(position_data_list=position_data_list, normal_DP=mean_DP, noise_level=noise)
+interfaceFunctions.writeZmatrix(simulation.createClonePositionData(), simulation.clones)
 
 

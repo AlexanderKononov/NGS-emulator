@@ -1,0 +1,29 @@
+# Scenarion 2
+#
+# Number of chromosome = 24
+# Length of chromosome = 1000000
+# Mutation level = 0.00002
+# Mean DP = 20
+# Noise = 3
+#
+# Comands:
+duplication clone=0 chr=9 coordinates=1-1000000 strand=A
+add_clone fraction=0.6 parent=0 strategy=parental
+deletion clone=1 chr=6 coordinates=1-1000000 strand=B
+add_clone fraction=0.05 parent=0 strategy=parental
+duplication clone=0 chr=7 coordinates=1-1000000 strand=A
+deletion clone=2 chr=8 coordinates=1-1000000 strand=B
+sample name=sample1
+add_clone fraction=0.1 parent=1 strategy=parental
+deletion clone=3 chr=10 coordinates=1-1000000 strand=B
+duplication clone=1 chr=11 coordinates=1-1000000 strand=A
+deletion clone=0 chr=12 coordinates=1-1000000 strand=B
+duplication clone=2 chr=13 coordinates=1-1000000 strand=A
+sample name=sample2
+add_clone fraction=0.1 parent=0 strategy=parental
+duplication clone=3 chr=1 coordinates=1-1000000 strand=A
+deletion clone=1 chr=2 coordinates=1-1000000 strand=B
+duplication clone=0 chr=3 coordinates=1-1000000 strand=A
+deletion clone=4 chr=4 coordinates=1-1000000 strand=B
+duplication clone=2 chr=5 coordinates=1-1000000 strand=A
+sample name=sample3

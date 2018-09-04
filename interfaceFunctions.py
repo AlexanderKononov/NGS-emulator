@@ -119,12 +119,52 @@ def writeVariants(position_data_list, normal_DP = 50, noise_level = 3):
     for sample in position_data_list:
         f_w.write('\t' + sample[0] + '.AD\t' + sample[0] + '.DP')
     f_w.write('\n')
-    for coordinate in range(len(position_data_list[0][1])):
-        f_w.write(str(position_data_list[0][1][coordinate][0]) + '\t' + str(position_data_list[0][1][coordinate][1]) + '\t.\t.\tID1111')
+    print('this')
+    print(len(position_data_list[0][1]))
+    print(len(position_data_list[-1][1]))
+    for sample_number in range(len(position_data_list)):
+        new_hole_position_list = []
+        for position_from_hole_list in position_data_list[-1][1]:
+            find_check = False
+            for position_from_samle_list in position_data_list[sample_number][1]:
+                if position_from_samle_list[0] == position_from_hole_list[0] and position_from_samle_list[1] ==position_from_hole_list[1]:
+                    new_hole_position_list.append(position_from_samle_list)
+                    find_check = True
+                    break
+            if find_check: continue
+            else:
+                new_hole_position_list.append(position_from_hole_list)   # It is not quit accuracy because
+                new_hole_position_list[-1][2] = 0.0                      #summary ploidy from other sample was used.
+        position_data_list[sample_number][1] = new_hole_position_list
+    print('that')
+    print(len(position_data_list[0][1]))
+    print(len(position_data_list[-1][1]))
+
+    for coordinate in range(len(position_data_list[-1][1])):
+        f_w.write(str(position_data_list[-1][1][coordinate][0]) + '\t' + str(position_data_list[-1][1][coordinate][1]) + '\t.\t.\tID1111')
         for sample in position_data_list:
             DP = int(random.normalvariate(sample[1][coordinate][3] * normal_DP, noise_level))
-            AF = int(random.normalvariate(sample[1][coordinate][2] * normal_DP, noise_level))
+            AF = int(random.normalvariate((sample[1][coordinate][2]/sample[1][coordinate][3]) * normal_DP, noise_level))
             if AF < 0: AF = 1
-            f_w.write('\t' + str(DP - AF) + ',' + str(AF) + '\t' + str(DP))
+            if AF > DP: AF = DP
+            MF = DP - AF
+            f_w.write('\t' + str(MF) + ',' + str(AF) + '\t' + str(DP))
+        f_w.write('\n')
+    f_w.close()
+
+# Method to write Z matrix to compere to Canopy results
+def writeZmatrix(postition_dict, clones):
+    f_w = open('Z_true.csv', 'w')
+    f_w.write('chr:pos')
+    for clone in clones:
+        f_w.write('\t'+'Clone '+str(clone[0]))
+    f_w.write('\n')
+    for position in postition_dict.keys():
+        f_w.write(position)
+        for clone in clones:
+            if clone[0] in postition_dict[position]:
+                f_w.write('\t1')
+            else:
+                f_w.write('\t0')
         f_w.write('\n')
     f_w.close()

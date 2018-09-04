@@ -230,7 +230,8 @@ class slice:
                 fraction_by_clone = ploidy_by_cna * clone[1]
                 position_events.append([self.positions[clone[0]][position_number][0], self.positions[clone[0]][position_number][1], fraction_by_clone, sum_ploidy])
         position_events = sorted(position_events, key=lambda x: (x[0], x[1]))
-        print(position_events)
+        print('pos_event')
+        print(len(position_events))
         position_data = [position_events[0]]
         position_data[0][2] = 0.0
         position_data[0][3] = 0.0
@@ -243,5 +244,21 @@ class slice:
                 continue
             position_data[-1][2] += position[2]
         position_data.pop(0)
+        print('pos_data')
+        print(len(position_data))
         return position_data
+
+    # Metgod to create a dictionary of position with list of clone
+    def createClonePositionData(self):
+        postition_dict = {}
+        for clone in self.clones:
+            for position_number in range(len(self.positions[clone[0]])):
+                postition_dict[str(self.positions[clone[0]][position_number][0])+':'+str(self.positions[clone[0]][position_number][1])] = []
+        for clone in self.clones:
+            for position_number in range(len(self.positions[clone[0]])):
+                postition_dict[str(self.positions[clone[0]][position_number][0])+':'+str(self.positions[clone[0]][position_number][1])].append(clone[0])
+        return postition_dict
+
+
+
 

@@ -6,6 +6,7 @@ Main idea of the project is tool which can help biologist to create data semple 
 So, Emulator should allowed users to create data with different DNA content (clonality, ploidy and crhromosome abberations), different levels of data (copy number data, B-allele fraction, single nucletide variation etc.) as well as differet size of sample data (lenghs and number of chromosomes). Opportunity to have small data size is especially important to test large computational approaches.
 
 ## User interfase
+![picture](img_explan.jpg)
 To realise noted flexibility, samle's features should be tune by wide spectrum of command and them attributes. To realise ease interaction between user and program, the process of tune was organized as "step by step" mode.
 
 * First, user creates project, creates basic sample by command *'-normal'*.

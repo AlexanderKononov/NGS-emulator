@@ -44,6 +44,8 @@ By this command we create CNA and BAF data with read depth about 15 per haploid 
 Output data plases in program directori with extention *'.data.txt'*
 For example : *file_CNA.data.txt* or *file_BAF.data.txt*
 
+There are a few examples of simulation in the project: Scenarios from 1 to 7. The complexity of simulated clonal structure is increased with scenario number.
+
 ## List of available commands
 
   Command *'-normal'* is first command by which inner project files are created.

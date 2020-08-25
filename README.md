@@ -2,17 +2,17 @@
 Tool to simulation of genome sequencing data with established properties to test and control different bioinformatics approaches.
 
 ## Idea
-Main idea of the project is tool which can help biologist to create data semple with already known features such as clonality or chromosom abberations. Thereby scientist can estimate a works of some approaches, for instance compare prediction about clonality and originally clonality of sample given by this emulator.
-So, Emulator should allowed users to create data with different DNA content (clonality, ploidy and crhromosome abberations), different levels of data (copy number data, B-allele fraction, single nucletide variation etc.) as well as differet size of sample data (lenghs and number of chromosomes). Opportunity to have small data size is especially important to test large computational approaches.
+Main idea of the project is tool which can help biologist to create data samples with already known features such as clonality or chromosom abberations. The user can simulate data of heterogeneous tissue with a range of cell populations with different mutations and copy number alterations for each cell populations. NGS-emulator creates "evolutionary fate" for each cell population taking into account their ancestral-parental relationship. Thereby scientist can estimate a works of some approaches, for instance, estimate the methods of prediction of subclonal structure, compare the prediction of original clonality of samples with simulation given by this emulator.
+Emulator allows users to create data with different DNA content (user can customise clonality, ploidy and crhromosome abberations), different levels of data (the tool produces copy number data, B-allele fraction, single nucletide variation etc.) as well as differet size of sample data (user can customise lenghs and number of chromosomes). Opportunity to have small data size is especially important to test large computational approaches.
 
 ## User interfase
 ![picture](img_explan.jpg)
-To realise noted flexibility, samle's features should be tune by wide spectrum of command and them attributes. To realise ease interaction between user and program, the process of tune was organized as "step by step" mode.
+To realise noted flexibility, sample's features should be tune by a wide spectrum of command and them attributes. To realise ease interaction between user and program, the process of tuning was organized as "step by step" mode.
 
 * First, user creates project, creates basic sample by command *'-normal'*.
     It can be imagined as the user take normal tissue sample on this step.
 * Second, user changes basic sample by other commands such as *'-addclone', '-duplication', '-deletin'*.
-    It is looked as the user molds or sculpts disered sample.
+    It is looked as the user molds or sculpts desired samples.
 * Third, user get wishful data by command *'-seq'*.
     Given sample is used as matrix to simulation of sequencing process and after the simulation the user gets data of sample with known features.
 
